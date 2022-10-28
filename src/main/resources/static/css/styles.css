@@ -1,0 +1,7 @@
+.appears-in-top-center {
+	position: absolute;
+	z-index: 99999;
+	top: 10px;
+	left: 50%;
+	transform: translateX(-50%);
+}
