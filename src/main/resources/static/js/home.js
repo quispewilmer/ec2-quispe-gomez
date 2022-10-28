@@ -30,32 +30,34 @@ function showSuccessAlert(message) {
 	}, 3000);
 }
 
-function getComputadoras() {
-    let out = $.ajax({ method: "GET", url: `${URL}/api/computadora/` });
+function getProgramadores() {
+    let out = $.ajax({ method: "GET", url: `${URL}/api/programador/` });
 
     return out;
 }
 
-function getComputadora(id) {
-    let out = $.ajax({ method: "GET", url: `${URL}/api/computadora/${id}` });
+function getProgramador(id) {
+    let out = $.ajax({ method: "GET", url: `${URL}/api/programador/${id}` });
 
     return out;
 }
 
-function getMarcas() {
-    let out = $.ajax({ method: "GET", url: `${URL}/api/marca/` });
+function getProyectos() {
+    let out = $.ajax({ method: "GET", url: `${URL}/api/proyecto/` });
 
     return out;
 }
 
-function postComputadora(computadora) {
-    let out = $.ajax({ method: "POST", url: `${URL}/api/computadora/`, data: JSON.stringify({
-            codigo: computadora.codigo,
-            descripcion: computadora.descripcion,
-            precio: computadora.precio,
-            stock: computadora.stock,
-            marca: {
-                codigo: computadora.marca.codigo,
+function postProgramador(programador) {
+    let out = $.ajax({ method: "POST", url: `${URL}/api/programador/`, data: JSON.stringify({
+            codigo: programador.codigo,
+            nombre: programador.nombre,
+            apellido: programador.apellido,
+            dni: programador.dni,
+            hijos: programador.hijos,
+            sueldo: programador.sueldo,
+            proyecto: {
+                codigo: programador.proyecto.codigo,
                 nombre: null
             }
         }),
@@ -70,120 +72,113 @@ function postComputadora(computadora) {
     return out;
 }
 
-function deleteComputadora(id) {
-    let out = $.ajax({ method: "DELETE", url: `${URL}/api/computadora/${id}`});
+function deleteProgramador(id) {
+    let out = $.ajax({ method: "DELETE", url: `${URL}/api/programador/${id}`});
 
     return out;
 }
 
-function addComputadoraIdToUrl(id) {
+function addProgramadorIdToUrl(id) {
     history.pushState({}, '', location.pathname.concat(id));
 }
 
-function removeComputadoraIdToUrl() {
+function removeProgramadorIdToUrl() {
     history.pushState({}, '', location.pathname.substring(0, location.pathname.lastIndexOf("/") + 1));
 }
 
-async function saveComputadora() {
+async function saveProgramador() {
     let id = location.pathname.substring(location.pathname.lastIndexOf("/") + 1, location.pathname.length);
 
-    let computadora = {
-        codigo: id == '' ? null : id,
-        descripcion: $("#descripcion").val(),
-        precio: $("#precio").val(),
-        stock: $("#stock").val(),
-        marca: {
-            codigo: parseInt($("#marca").val(), 10),
-            nombre: null
-        }
-    };
+    let out = await deleteProgramador(id);
 
-    let out = await postComputadora(computadora);
-
-    fillComputadorasTable();
+    fillProgramadoresTable();
 }
 
-function mapComputadoraInTableRow(computadora) {
+function mapProgramadorInTableRow(programador) {
     return `<tr>
-                    <td scope="col">${computadora.codigo}</td>
-                    <td scope="col">${computadora.descripcion}</td>
-                    <td scope="col">${computadora.precio}</td>
-                    <td scope="col">${computadora.stock}</td>
-                    <td scope="col">${computadora.marca.nombre}</td>
+                    <td scope="col">${programador.codigo}</td>
+                    <td scope="col">${programador.nombre}</td>
+                    <td scope="col">${programador.apellido}</td>
+                    <td scope="col">${programador.dni}</td>
+                    <td scope="col">${programador.hijos}</td>
+                    <td scope="col">${programador.sueldo}</td>
+                    <td scope="col">${programador.proyecto.nombre}</td>
                     <td scope="col">
-                        <button type="button" class="btn btn-warning" data-bs-dismiss="modal" onclick="editComputadoraFromList('${computadora.codigo}')" data-bs-toggle="modal" data-bs-target="#computadoraModal">Editar</button>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="deleteComputadoraFromList('${computadora.codigo}')">Eliminar</button>
+                        <button type="button" class="btn btn-warning" data-bs-dismiss="modal" onclick="editProgramadorFromList('${programador.codigo}')" data-bs-toggle="modal" data-bs-target="#programadorModal">Seleccionar</button>
                     </td>
                 </tr>
                 `;
 }
 
-function mapMarcaInCombobox(marca) {
-    return `<option value=${marca.codigo}>${marca.nombre}</option>
+function mapProyectoInCombobox(proyecto) {
+    return `<option value=${proyecto.codigo}>${proyecto.nombre}</option>
                     `;
 }
 
-async function fillComputadoraForm(id) {
-    let computadora = await getComputadora(id);
+async function fillProgramadorForm(id) {
+    let programador = await getProgramador(id);
 
-    $("#descripcion").val(computadora.descripcion);
-    $("#precio").val(computadora.precio);
-    $("#stock").val(computadora.stock);
-    $("#marca").val(computadora.marca.codigo);
+    $("#codigo").val(programador.codigo)
+    $("#nombre").val(programador.nombre);
+    $("#apellido").val(programador.apellido);
+    $("#dni").val(programador.dni);
+    $("#hijo").val(programador.hijos);
+    $("#sueldo").val(programador.sueldo);
+    $("#proyecto").val(programador.proyecto.codigo);
 }
 
-async function editComputadoraFromList(id) {
-    addComputadoraIdToUrl(id);
-    fillComputadoraForm(id);
+async function editProgramadorFromList(id) {
+    addProgramadorIdToUrl(id);
+    fillProgramadorForm(id);
 }
 
-async function deleteComputadoraFromList(id) {
-    let out = await deleteComputadora(id);
+async function deleteProgramadorFromList(id) {
+    let out = await deleteProgramador(id);
 
-    fillComputadorasTable();
+    fillProgramadoresTable();
 }
 
-async function fillComputadorasTable() {
-    const computadorasTableBody = $("#computadoras-table__body");
+async function fillProgramadoresTable() {
+    const programadoresTableBody = $("#programadores-table__body");
 
-    computadorasTableBody.empty();
+    programadoresTableBody.empty();
 
-    let computadoras = await getComputadoras();
+    let programadores = await getProgramadores();
 
-    computadoras.forEach(computadora => {
-        computadorasTableBody.append(mapComputadoraInTableRow(computadora));
+    programadores.forEach(programador => {
+        programadoresTableBody.append(mapProgramadorInTableRow(programador));
     })
 }
 
-async function fillMarcasCombobox() {
-    const marcasCombobox = $("#marca");
+async function fillProyectosCombobox() {
+    const proyectosCombobox = $("#proyecto");
 
-    let marcas = await getMarcas();
+    let proyectos = await getProyectos();
 
-    marcas.forEach(marca => {
-        marcasCombobox.append(mapMarcaInCombobox(marca));
+    proyectos.forEach(proyecto => {
+        proyectosCombobox.append(mapProyectoInCombobox(proyecto));
     })
 }
 
-function emptyComputadoraForm() {
-    $("#descripcion").val(null);
+function emptyProgramadorForm() {
+    /*$("#descripcion").val(null);
     $("#precio").val(null);
     $("#stock").val(null);
-    $("#marca").val(null);
+    $("#marca").val(null);*/
 }
 
-function closeComputadoraModal() {
-    $("#computadoraModal").modal("hide");
+function closeProgramadorModal() {
+    $("#programadorModal").modal("hide");
 }
 
 function index() {
     let saveButton = $("#save-button");
-    let computadoraForm = $("#computadoraForm");
+    let programadorForm = $("#programadorForm");
 
-    fillComputadorasTable();
-    fillMarcasCombobox();
+    fillProgramadoresTable();
+    fillProyectosCombobox();
 
-    computadoraForm.validate({
+    /*programadorForm.validate({
         messages: {
             descripcion: {
               required: "Por favor, pon una descripción",
@@ -203,22 +198,22 @@ function index() {
               required: "Por favor, elige una marca"
             },
           }
-    });
+    });*/
 
     saveButton.on("click", e => {
-        if(computadoraForm.valid()) {
-            saveComputadora();
-            emptyComputadoraForm();
-            closeComputadoraModal();
+        if(programadorForm.valid()) {
+            saveProgramador();
+            emptyProgramadorForm();
+            closeProgramadorModal();
         }
     });
 
-    $("#computadoraModal").on("show.bs.modal", (e) => {
-        emptyComputadoraForm();
+    $("#programadorModal").on("show.bs.modal", (e) => {
+        emptyProgramadorForm();
     })
 
-    $("#computadoraModal").on("hidden.bs.modal", (e) => {
-        removeComputadoraIdToUrl();
+    $("#programadorModal").on("hidden.bs.modal", (e) => {
+        removeProgramadorIdToUrl();
     })
 }
 

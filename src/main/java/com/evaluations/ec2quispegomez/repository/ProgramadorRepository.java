@@ -1,9 +1,11 @@
 package com.evaluations.ec2quispegomez.repository;
 
-import com.evaluations.ecquispegomez.model.Computadora;
+import com.evaluations.ec2quispegomez.model.Programador;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
+
 @Repository
-public interface ComputadoraRepository extends JpaRepository<Computadora, Integer> {
+public interface ProgramadorRepository extends JpaRepository<Programador, BigInteger> {
 }

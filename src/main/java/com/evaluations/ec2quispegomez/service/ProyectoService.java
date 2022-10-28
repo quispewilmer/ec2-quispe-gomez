@@ -1,19 +1,19 @@
 package com.evaluations.ec2quispegomez.service;
 
-import com.evaluations.ecquispegomez.model.Marca;
-import com.evaluations.ecquispegomez.repository.MarcaRepository;
+import com.evaluations.ec2quispegomez.model.Proyecto;
+import com.evaluations.ec2quispegomez.repository.ProyectoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class MarcaService {
+public class ProyectoService {
     @Autowired
-    private MarcaRepository marcaRepository;
+    private ProyectoRepository proyectoRepository;
 
-    public List<Marca> findAll() {
-        return marcaRepository.findAll();
+    public List<Proyecto> findAll() {
+        return proyectoRepository.findAll();
     }
 
 }

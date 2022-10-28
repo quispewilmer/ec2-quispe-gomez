@@ -1,7 +1,7 @@
 package com.evaluations.ec2quispegomez.controller;
 
-import com.evaluations.ecquispegomez.model.Computadora;
-import com.evaluations.ecquispegomez.service.ComputadoraService;
+import com.evaluations.ec2quispegomez.model.Programador;
+import com.evaluations.ec2quispegomez.service.ProgramadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/computadora", method = RequestMethod.GET)
-public class ComputadoraController {
+@RequestMapping(value = "/programador", method = RequestMethod.GET)
+public class ProgramadorController {
     @Autowired
-    private ComputadoraService computadoraService;
+    private ProgramadorService programadorService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
-        List<Computadora> computadoraList = computadoraService.findAll();
+        List<Programador> programadorList = programadorService.findAll();
 
-        model.addAttribute("computadoraList", computadoraList);
+        model.addAttribute("programadorList", programadorList);
 
-        return "computadora/index";
+        return "programador/index";
     }
 }

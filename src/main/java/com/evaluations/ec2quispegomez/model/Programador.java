@@ -1,65 +1,40 @@
 package com.evaluations.ec2quispegomez.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 @Entity
-@Table(name = "computadoras")
-public class Computadora {
+@Table(name = "tb_programador")
+@Getter
+@Setter
+@NoArgsConstructor
+public class Programador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "codigo")
-    private Integer codigo;
+    @Column(name = "cod_programador")
+    private BigInteger codigo;
 
-    @Column(name = "descripcion")
-    private String descripcion;
+    @Column(name = "nom_programador")
+    private String nombre;
 
-    @Column(name = "precio")
-    private Double precio;
+    @Column(name = "ape_programador")
+    private String apellido;
 
-    @Column(name = "stock")
-    private Integer stock;
+    @Column(name = "dni_programador")
+    private BigInteger dni;
+
+    @Column(name = "num_hijos")
+    private BigInteger hijos;
+
+    @Column(name = "sueldo")
+    private BigDecimal sueldo;
 
     @ManyToOne
-    @JoinColumn(name = "codigo_marca")
-    private Marca marca;
-
-    public Integer getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(Integer codigo) {
-        this.codigo = codigo;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public Double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public Marca getMarca() {
-        return marca;
-    }
-
-    public void setMarca(Marca marca) {
-        this.marca = marca;
-    }
+    @JoinColumn(name = "cod_proyecto")
+    private Proyecto proyecto;
 }

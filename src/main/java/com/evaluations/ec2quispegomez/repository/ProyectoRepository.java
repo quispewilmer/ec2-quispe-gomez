@@ -1,10 +1,12 @@
 package com.evaluations.ec2quispegomez.repository;
 
-import com.evaluations.ecquispegomez.model.Marca;
+import com.evaluations.ec2quispegomez.model.Proyecto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
+
 @Repository
-public interface MarcaRepository extends JpaRepository<Marca, Integer> {
+public interface ProyectoRepository extends JpaRepository<Proyecto, BigInteger> {
 
 }

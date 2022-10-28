@@ -1,30 +1,31 @@
 package com.evaluations.ec2quispegomez.service;
 
-import com.evaluations.ecquispegomez.model.Computadora;
-import com.evaluations.ecquispegomez.repository.ComputadoraRepository;
+import com.evaluations.ec2quispegomez.model.Programador;
+import com.evaluations.ec2quispegomez.repository.ProgramadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Service
-public class ComputadoraService {
+public class ProgramadorService {
     @Autowired
-    private ComputadoraRepository computadoraRepository;
+    private ProgramadorRepository programadorRepository;
 
-    public List<Computadora> findAll() {
-        return computadoraRepository.findAll();
+    public List<Programador> findAll() {
+        return programadorRepository.findAll();
     }
 
-    public Computadora findById(int id) {
-        return computadoraRepository.findById(id).orElse(new Computadora());
+    public Programador findById(BigInteger id) {
+        return programadorRepository.findById(id).orElse(new Programador());
     }
 
-    public Computadora save(Computadora user) {
-        return computadoraRepository.save(user);
+    public Programador save(Programador user) {
+        return programadorRepository.save(user);
     }
 
-    public void deleteById(int id) {
-        computadoraRepository.deleteById(id);
+    public void deleteById(BigInteger id) {
+        programadorRepository.deleteById(id);
     }
 }
